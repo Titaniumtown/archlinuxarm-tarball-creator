@@ -16,7 +16,7 @@ export CC=clang
 export CXX=clang++
 export LD=ld.lld
 
-flags="-Ofast -march=native -mtune=native"
+flags="-Ofast -mcpu=native"
 
 flags="$flags -ftree-vectorize"
 
