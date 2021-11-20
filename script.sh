@@ -30,6 +30,10 @@ echo -e "date: ${date}\n"
 
 tarName="archlinux-arm-raspi4-${date}"
 
+if [[ $xmrigEnabled == "True" ]]; then 
+    tarName="${tarName}-xmrig"
+fi
+
 packageList="base base-devel networkmanager ${kernel} ${kernel}-headers raspberrypi-firmware raspberrypi-bootloader openssh ntp fish yay nano"
 
 if [[ $xmrigEnabled == "True" ]]; then 
