@@ -85,6 +85,7 @@ if [[ $xmrigEnabled == "True" ]]; then
 
     cp -v "chroot_things/xmrig/xmrig.service" $targetChroot/etc/systemd/system/
     sed -i ' 1 s/.*/&mitigations=off default_hugepagesz=2M hugepagesz=1G hugepages=3/' $targetChroot/boot/cmdline.txt
+    echo "#2.0ghz profile:\n#over_voltage=6\n#arm_freq=2000" >> $targetChroot/boot/config.txt
 fi 
 
 mount --bind "${targetChroot}" "${targetChroot}" #Has to be like this or else pacstrap isn't happy
