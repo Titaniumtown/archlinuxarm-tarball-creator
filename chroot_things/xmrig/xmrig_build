@@ -1,0 +1,34 @@
+#!/bin/bash
+
+cd ~/xmrig
+echo "cleaning..."
+git clean -f -d -x
+rm -fr build
+
+echo "updating"
+git pull
+
+echo "building"
+mkdir build
+cd build
+
+export CC=clang
+export CXX=clang++
+export LD=ld.lld
+
+flags="-Ofast -march=native -mtune=native"
+
+flags="$flags -ftree-vectorize"
+
+flags="$flags -flto=thin"
+
+flags="$flags -ffast-math"
+
+#associative-math and reciprocal-math breaks xmrig
+flags="$flags -fno-associative-math -fno-reciprocal-math"
+
+cmake .. -DCMAKE_BUILD_TYPE=Release -DWITH_OPENCL=OFF -DWITH_CUDA=OFF -DWITH_NVML=OFF -DCMAKE_C_FLAGS="$flags" -DCMAKE_CXX_FLAGS="$flags"
+make -j4
+
+echo "copying binary"
+cp -v xmrig ~/bin/xmrig

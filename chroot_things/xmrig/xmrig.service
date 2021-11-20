@@ -1,0 +1,12 @@
+[Unit]
+Description=xmrig
+After=network.target
+
+[Service]
+Type=Forking
+User=arch
+ExecStart=/home/arch/bin/xmrig_run
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

@@ -12,6 +12,9 @@ systemctl enable ntpd
 useradd -m arch
 echo -e "arch\narch" | passwd arch
 
+mkdir /home/arch
+chown -R arch /home/arch
+
 #set password to root user to root
 echo -e "root\nroot" | passwd root
 

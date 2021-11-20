@@ -4,11 +4,12 @@ set -e #exit script if any command fails
 
 #Options:
 silentPacstrap="False" #specifies whether or not pacstrap outputs anything to the terminal
+xmrigEnabled="False"
 
 #Print options:
 echo "Config:"
 echo "   Silenced pacstrap: ${silentPacstrap}"
-
+echo "   Xmrig enabled: ${xmrigEnabled}"
 
 source "$(pwd)/scripts/spinner.sh" #for spinners
 
@@ -29,12 +30,16 @@ echo -e "date: ${date}\n"
 
 tarName="archlinux-arm-raspi4-${date}"
 
-packageList="base base-devel networkmanager ${kernel} ${kernel}-headers raspberrypi-firmware raspberrypi-bootloader openssh ntp fish cmake yay"
+packageList="base base-devel networkmanager ${kernel} ${kernel}-headers raspberrypi-firmware raspberrypi-bootloader openssh ntp fish yay nano"
+
+if [[ $xmrigEnabled == "True" ]]; then 
+    packageList="${packageList} screen clang llvm hwloc openssl cmake git screen"
+fi
 
 if [[ "$silentPacstrap" == "False" ]]; then
     pacstrap -C "chroot_things/pacman.conf" "${targetChroot}" ${packageList}
 elif [[ "$silentPacstrap" == "True" ]]; then
-start_spinner 'Running pacstrap...'
+    start_spinner 'Running pacstrap...'
     pacstrap -C "chroot_things/pacman.conf" "${targetChroot}" ${packageList} > /dev/null
     stop_spinner $?
 else
@@ -54,7 +59,29 @@ cp -v "chroot_things/internal_script.sh" "${targetChroot}/internal_script.sh"
 stop_spinner $?
 
 echo "/dev/mmcblk0p1 /boot vfat defaults,rw 0 0" >> "${targetChroot}/etc/fstab" #add /boot to /etc/fstab
-echo "arch ALL=(ALL) ALL" >> "${targetChroot}/etc/sudoers" #Add arch user to sudoers
+echo "arch ALL=(ALL) NOPASSWD: ALL" >> "${targetChroot}/etc/sudoers" #Add arch user to sudoers
+
+if [[ $xmrigEnabled == "True" ]]; then 
+    cp -v "chroot_things/xmrig/xmrig.json" "${targetChroot}/home/arch/.xmrig.json"
+    echo vm.nr_hugepages=1280 >> "${targetChroot}/etc/sysctl.conf"
+
+    [ -z ${WALLET_ADDR} ] && echo "WALLET_ADDR not set" || sed -i "s/WALLET_ADDR/${WALLET_ADDR}/g" "${targetChroot}/home/arch/.xmrig.json"
+
+    [ -z ${WORKER_NAME} ] && echo "WORKER_NAME not set" || sed -i "s/WORKER_NAME/${WORKER_NAME}/g" "${targetChroot}/home/arch/.xmrig.json"
+
+    mkdir $targetChroot/home/arch/.config
+    mkdir $targetChroot/home/arch/.config/fish
+    touch $targetChroot/home/arch/.config/fish/config.fish
+    echo 'set -gx PATH $PATH /home/arch/bin' > $targetChroot/home/arch/.config/fish/config.fish
+
+    mkdir $targetChroot/home/arch/bin
+    cp -v "chroot_things/xmrig/xmrig_build" $targetChroot/home/arch/bin/xmrig_build
+    cp -v "chroot_things/xmrig/xmrig_run" $targetChroot/home/arch/bin/xmrig_run
+    chmod +x $targetChroot/home/arch/bin/*
+
+    cp -v "chroot_things/xmrig/xmrig.service" $targetChroot/etc/systemd/system/
+    sed -i ' 1 s/.*/&mitigations=off default_hugepagesz=2M hugepagesz=1G hugepages=3/' $targetChroot/boot/cmdline.txt
+fi 
 
 mount --bind "${targetChroot}" "${targetChroot}" #Has to be like this or else pacstrap isn't happy
 start_spinner 'Running internal script...'
@@ -62,6 +89,13 @@ echo "/dev/mmcblk0p1 /boot vfat defaults 0 0" >> "${targetChroot}/etc/fstab"
 arch-chroot "${targetChroot}" "./internal_script.sh"
 rm "${targetChroot}/internal_script.sh"
 stop_spinner $?
+
+if [[ $xmrigEnabled == "True" ]]; then 
+    chmod +x chroot_things/xmrig/internal_script_xmrig.sh
+    cp -v chroot_things/xmrig/internal_script_xmrig.sh "${targetChroot}/internal_script_xmrig.sh"
+    arch-chroot "${targetChroot}" "./internal_script_xmrig.sh"
+    rm "${targetChroot}/internal_script_xmrig.sh"
+fi
 
 #un-bind directory
 umount "${targetChroot}"
