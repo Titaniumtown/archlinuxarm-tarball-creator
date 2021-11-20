@@ -2,20 +2,17 @@
 pacman-key --init
 pacman-key --populate archlinuxarm
 
-sed -i 's/# %wheel/%wheel/g' /etc/sudoers
-
 #enable services
 systemctl enable NetworkManager
 systemctl enable systemd-timesyncd
 systemctl enable sshd
+systemctl enable ntpd
 
 #create user
-useradd -m instantos
-echo -e "instantos\ninstantos" | passwd instantos
+useradd -m arch
+echo -e "arch\arch" | passwd arch
 
 #set password to root user to root
 echo -e "root\nroot" | passwd root
-echo "/dev/mmcblk0p1 /boot vfat defaults,rw 0 0" >> /etc/fstab
 
-# Add instantos user to sudoers
-echo "instantos ALL=(ALL) ALL" >> /etc/sudoers
+chsh -s /usr/bin/fish arch #set fish as the default shell
