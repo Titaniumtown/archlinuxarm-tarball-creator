@@ -49,7 +49,7 @@ rm -fr "${targetChroot}/etc/pacman.conf" "${targetChroot}/etc/makepkg.conf"
 cp -v "chroot_things/pacman.conf" "${targetChroot}/etc/pacman.conf"
 cp -v "chroot_things/makepkg.conf" "${targetChroot}/etc/makepkg.conf"
 #temp copy internal script to chroot:
-cp "chroot_things/internal_script.sh" "${targetChroot}/internal_script.sh"
+cp -v "chroot_things/internal_script.sh" "${targetChroot}/internal_script.sh"
 stop_spinner $?
 
 echo "/dev/mmcblk0p1 /boot vfat defaults,rw 0 0" >> "${targetChroot}/etc/fstab" #add /boot to /etc/fstab
@@ -58,7 +58,7 @@ echo "arch ALL=(ALL) ALL" >> "${targetChroot}/etc/sudoers" #Add arch user to sud
 mount --bind "${targetChroot}" "${targetChroot}" #Has to be like this or else pacstrap isn't happy
 start_spinner 'Running internal script...'
 echo "/dev/mmcblk0p1 /boot vfat defaults 0 0" >> "${targetChroot}/etc/fstab"
-arch-chroot "${targetChroot}" "bash ./internal_script.sh"
+arch-chroot "${targetChroot}" "bash /internal_script.sh"
 rm "${targetChroot}/internal_script.sh"
 stop_spinner $?
 
