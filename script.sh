@@ -58,7 +58,7 @@ echo "arch ALL=(ALL) ALL" >> "${targetChroot}/etc/sudoers" #Add arch user to sud
 mount --bind "${targetChroot}" "${targetChroot}" #Has to be like this or else pacstrap isn't happy
 start_spinner 'Running internal script...'
 echo "/dev/mmcblk0p1 /boot vfat defaults 0 0" >> "${targetChroot}/etc/fstab"
-arch-chroot "${targetChroot}" "./internal_script.sh"
+arch-chroot "${targetChroot}" "bash ./internal_script.sh"
 rm "${targetChroot}/internal_script.sh"
 stop_spinner $?
 
