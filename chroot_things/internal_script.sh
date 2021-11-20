@@ -10,7 +10,7 @@ systemctl enable ntpd
 
 #create user
 useradd -m arch
-echo -e "arch\arch" | passwd arch
+echo -e "arch\narch" | passwd arch
 
 #set password to root user to root
 echo -e "root\nroot" | passwd root
