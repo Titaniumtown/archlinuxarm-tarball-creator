@@ -30,7 +30,7 @@ echo -e "date: ${date}\n"
 
 tarName="archlinux-arm-raspi4-${date}"
 
-if [[ $xmrigEnabled == "True" ]]; then 
+if [[ "$xmrigEnabled" == "True" ]]; then 
     tarName="${tarName}-xmrig"
 fi
 
