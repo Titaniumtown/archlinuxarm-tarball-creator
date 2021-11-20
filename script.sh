@@ -66,6 +66,7 @@ echo "/dev/mmcblk0p1 /boot vfat defaults,rw 0 0" >> "${targetChroot}/etc/fstab" 
 echo "arch ALL=(ALL) NOPASSWD: ALL" >> "${targetChroot}/etc/sudoers" #Add arch user to sudoers
 
 if [[ $xmrigEnabled == "True" ]]; then 
+    mkdir -p $targetChroot/home/arch
     cp -v "chroot_things/xmrig/xmrig.json" "${targetChroot}/home/arch/.xmrig.json"
     echo vm.nr_hugepages=1280 >> "${targetChroot}/etc/sysctl.conf"
 
@@ -73,8 +74,7 @@ if [[ $xmrigEnabled == "True" ]]; then
 
     [ -z ${WORKER_NAME} ] && echo "WORKER_NAME not set" || sed -i "s/WORKER_NAME/${WORKER_NAME}/g" "${targetChroot}/home/arch/.xmrig.json"
 
-    mkdir $targetChroot/home/arch/.config
-    mkdir $targetChroot/home/arch/.config/fish
+    mkdir -p $targetChroot/home/arch/.config/fish
     touch $targetChroot/home/arch/.config/fish/config.fish
     echo 'set -gx PATH $PATH /home/arch/bin' > $targetChroot/home/arch/.config/fish/config.fish
 
