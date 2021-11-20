@@ -37,7 +37,7 @@ fi
 packageList="base base-devel networkmanager ${kernel} ${kernel}-headers raspberrypi-firmware raspberrypi-bootloader openssh ntp fish yay nano"
 
 if [[ $xmrigEnabled == "True" ]]; then 
-    packageList="${packageList} screen clang llvm hwloc openssl cmake git screen"
+    packageList="${packageList} screen clang llvm hwloc openssl cmake git screen bc"
 fi
 
 if [[ "$silentPacstrap" == "False" ]]; then
@@ -86,6 +86,10 @@ if [[ $xmrigEnabled == "True" ]]; then
     cp -v "chroot_things/xmrig/xmrig.service" $targetChroot/etc/systemd/system/
     sed -i ' 1 s/.*/&mitigations=off default_hugepagesz=2M hugepagesz=1G hugepages=3/' $targetChroot/boot/cmdline.txt
     echo "#2.0ghz profile:\n#over_voltage=6\n#arm_freq=2000" >> $targetChroot/boot/config.txt
+
+    cp -v chroot_things/xmrig/setcpugov.service $targetChroot/etc/systemd/system/setcpugov.service
+
+    cp -v chroot_things/xmrig/temps $targetChroot/home/arch/bin/
 fi 
 
 mount --bind "${targetChroot}" "${targetChroot}" #Has to be like this or else pacstrap isn't happy

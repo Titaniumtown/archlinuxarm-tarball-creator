@@ -9,3 +9,12 @@ This project is based off of the work I did for: [InstantOS-arm](https://github.
 - Default root password: `root`
 - Default username: `arch`
 - Default password: `arch`
+
+## Xmrig tarballs:
+While this feature is still in development, this option aims to allow people to get up and running on [MoneroOcean](https://moneroocean.stream) and mining the most profitable crypto for their Raspberry Pi 4! Please do note that you do need a good cooler on your Raspberry Pi as using a tarball with xmrig integrated into it will **overclock to 2.0ghz**, and alongside the cpu being under high usage, this will create a lot of heat that may **damage your Pi** if you don't have **adequate cooling**.
+
+You can also monitor your temperatures, via the `temps` command (a script I made) located in `~/bin/fish` but should be included in your `PATH` by default.
+
+In order to get mining once you have the tarball installed, you need to open `~/.xmrig.json`, and change `WALLET_ADDR` to your Monero wallet, and change `WORKER_NAME` to whatever you want to call the machine you're mining on.
+
+A more detailed guide on getting set up is a major TODO.

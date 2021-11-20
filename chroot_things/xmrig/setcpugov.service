@@ -1,0 +1,8 @@
+[Unit]
+Description=Set CPU governor
+
+[Service]
+ExecStart=bash -c "echo performance | sudo tee /sys/devices/system/cpu/cpufreq/policy0/scaling_governor"
+
+[Install]
+WantedBy=multi-user.target
