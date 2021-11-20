@@ -29,7 +29,7 @@ echo -e "date: ${date}\n"
 
 tarName="archlinux-arm-raspi4-${date}"
 
-packageList="base base-devel networkmanager ${kernel} ${kernel}-headers raspberrypi-firmware raspberrypi-bootloader openssh ntpd fish cmake yay"
+packageList="base base-devel networkmanager ${kernel} ${kernel}-headers raspberrypi-firmware raspberrypi-bootloader openssh ntp fish cmake yay"
 
 if [[ "$silentPacstrap" == "False" ]]; then
     pacstrap -C "chroot_things/pacman.conf" "${targetChroot}" ${packageList}
