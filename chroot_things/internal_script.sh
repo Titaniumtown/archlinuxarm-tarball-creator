@@ -16,3 +16,5 @@ echo -e "arch\arch" | passwd arch
 echo -e "root\nroot" | passwd root
 
 chsh -s /usr/bin/fish arch #set fish as the default shell
+
+pacman -Scc --noconfirm #clean package cache
