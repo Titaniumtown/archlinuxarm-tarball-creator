@@ -1,2 +1,3 @@
 #!/bin/bash
+sudo sysctl -w vm.nr_hugepages=1280
 screen -dmS xmrig sudo ~/bin/xmrig -c ~/.xmrig.json
