@@ -24,7 +24,7 @@ flags="$flags -ffast-math"
 #associative-math and reciprocal-math breaks xmrig
 flags="$flags -fno-associative-math -fno-reciprocal-math"
 
-ldflags="-O2 -fuse-ld=lld -rtlib=compiler-rt -flto=thin"
+ldflags="-O2 -fuse-ld=lld -flto=thin"
 
 cmake .. -DCMAKE_BUILD_TYPE=Release -DWITH_OPENCL=OFF -DWITH_CUDA=OFF -DWITH_NVML=OFF -DCMAKE_C_FLAGS="$flags" -DCMAKE_CXX_FLAGS="$flags" -DCMAKE_EXE_LINKER_FLAGS="$ldflags"
 make -j4
