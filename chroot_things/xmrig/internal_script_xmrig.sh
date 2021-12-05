@@ -1,7 +1,7 @@
 #!/bin/bash
 systemctl daemon-reload
 systemctl enable xmrig
-systemctl enable setcugov.service
+systemctl enable setcpugov
 
 chown -R arch /home/arch
 sudo -i -u arch fish << EOF
