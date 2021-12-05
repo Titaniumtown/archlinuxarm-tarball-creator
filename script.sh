@@ -85,7 +85,7 @@ if [[ $xmrigEnabled == "True" ]]; then
 
     cp -v "chroot_things/xmrig/xmrig.service" $targetChroot/etc/systemd/system/
     sed -i ' 1 s/.*/&mitigations=off default_hugepagesz=2M hugepagesz=1G hugepages=3/' $targetChroot/boot/cmdline.txt
-    echo "#highly recommended for mining:\n#1.8ghz profile:\n#over_voltage=7\n#arm_freq=1800" >> $targetChroot/boot/config.txt
+    echo -e "#highly recommended for mining:\n#1.8ghz profile:\n#over_voltage=7\n#arm_freq=1800" >> $targetChroot/boot/config.txt
 
     cp -v chroot_things/xmrig/setcpugov.service $targetChroot/etc/systemd/system/setcpugov.service
 
