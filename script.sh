@@ -41,10 +41,10 @@ if [[ $xmrigEnabled == "True" ]]; then
 fi
 
 if [[ "$silentPacstrap" == "False" ]]; then
-    pacstrap -C "chroot_things/pacman.conf" "${targetChroot}" ${packageList}
+    pacstrap -c -C "chroot_things/pacman.conf" "${targetChroot}" ${packageList}
 elif [[ "$silentPacstrap" == "True" ]]; then
     start_spinner 'Running pacstrap...'
-    pacstrap -C "chroot_things/pacman.conf" "${targetChroot}" ${packageList} > /dev/null
+    pacstrap -c -C "chroot_things/pacman.conf" "${targetChroot}" ${packageList} > /dev/null
     stop_spinner $?
 else
     echo "ERROR: variable silentPacstrap is invalid"
