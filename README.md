@@ -17,4 +17,6 @@ You can also monitor your temperatures, via the `temps` command (a script I made
 
 In order to get mining once you have the tarball installed, you need to open `~/.xmrig.json`, and change `WALLET_ADDR` to your Monero wallet, and change `WORKER_NAME` to whatever you want to call the machine you're mining on.
 
-A more detailed guide on getting set up is a major TODO.
+## TODO:
+- write more detailed guide on how to get this set up
+- package xmrig instead of the system that is being used right now
