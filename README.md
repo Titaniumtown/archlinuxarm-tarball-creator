@@ -20,3 +20,4 @@ In order to get mining once you have the tarball installed, you need to open `~/
 ## TODO:
 - write more detailed guide on how to get this set up
 - package xmrig instead of the system that is being used right now
+- properly package kernel builds
