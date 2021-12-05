@@ -106,6 +106,10 @@ if [[ $xmrigEnabled == "True" ]]; then
     rm "${targetChroot}/internal_script_xmrig.sh"
 fi
 
+start_spinner 'clearing pacman cache...'
+rm -fr "${targetChroot}/var/cache/pacman/pkg/*"
+stop_spinner $?
+
 #un-bind directory
 umount "${targetChroot}"
 
