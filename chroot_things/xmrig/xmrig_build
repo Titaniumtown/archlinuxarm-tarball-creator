@@ -15,14 +15,20 @@ cd build
 export CC=clang
 export CXX=clang++
 
-flags="-Ofast -mcpu=native"
+flags="-Ofast -march=native -mtune=native"
 
 flags="$flags -flto=thin"
 
-flags="$flags -ffast-math"
+flags="$flags -ffast-math -fsigned-zeros -fhonor-infinites"
 
-#associative-math and reciprocal-math breaks xmrig
-flags="$flags -fno-associative-math -fno-reciprocal-math"
+flags="$flags -mllvm -polly"
+
+flags="$flags -mllvm -polly-vectorizer=stripmine"
+
+flags="$flags -mllvm -polly-parallel -mllvm -polly-scheduling=dynamic"
+flags="$flags -mllvm -polly-omp-backend=LLVM"
+
+flags="$flags -mllvm -polly-scheduling-chunksize=16"
 
 ldflags="-O2 -fuse-ld=lld -flto=thin"
 
