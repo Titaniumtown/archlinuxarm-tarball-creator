@@ -15,7 +15,7 @@ cd build
 export CC=clang
 export CXX=clang++
 
-flags="-Ofast -march=native -mtune=native"
+flags="-Ofast -mcpu=native"
 
 flags="$flags -flto=thin"
 
