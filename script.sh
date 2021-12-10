@@ -37,7 +37,7 @@ fi
 packageList="base base-devel networkmanager ${kernel} ${kernel}-headers raspberrypi-firmware raspberrypi-bootloader openssh ntp fish yay nano"
 
 if [[ $xmrigEnabled == "True" ]]; then 
-    packageList="${packageList} screen clang llvm hwloc openssl cmake git screen bc lld"
+    packageList="${packageList} screen clang llvm hwloc openssl cmake git screen bc lld polly"
 fi
 
 if [[ "$silentPacstrap" == "False" ]]; then
